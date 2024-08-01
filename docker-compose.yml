@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  cosyvoice:
+    image: cosy_voice:v2
+    volumes:
+      - /data:/data
+      - ./cosy_api.py:/app/cosy_api.py
+      - ./mercury_workspace:/app/mercury_workspace
+    ports:
+      - "3335:3335"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    restart: always
